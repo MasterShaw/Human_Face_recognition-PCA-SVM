@@ -40,10 +40,10 @@ function [eigvector, eigvalue, meanData, new_data] = PCA(data, options)
 %			fea_Train = fea(trainIdx,:);
 %
 %			[eigvector, eigvalue] = PCA(fea_Train, options)
-%			fea_New = fea*eigvector;  ÑµÁ·Êý¾Ý
+%			fea_New = fea*eigvector;  è®­ç»ƒæ•°æ®
 %		or
 %			[eigvector, eigvalue, meanData] = PCA(fea_Train, options)
-%			fea_New_2 = (fea - repmat(meanData,nSmp,1))*eigvector;  ÑµÁ·Êý¾Ý
+%			fea_New_2 = (fea - repmat(meanData,nSmp,1))*eigvector;  è®­ç»ƒæ•°æ®
 %
 %	 Then classification is then performed on "fea_new" or "fea_new_2". 
 %	 Since we use Euclidean distance, the result will be the same for 
@@ -53,8 +53,8 @@ function [eigvector, eigvalue, meanData, new_data] = PCA(data, options)
 %			[eigvector, eigvalue, meanData, fea_Train_new] = PCA(fea_Train, options);
 %	  Since "fea_Train_new" is "mean removed", you should also subtract the "meanData" 
 %	  from each testing example, like
-%			fea_Test = fea(testIdx,:);          ²âÊÔÊý¾Ý
-%			fea_Test_new = (fea_Test - repmat(meanData,nSmpTest,1))*eigvector; ²âÊÔÊý¾Ý
+%			fea_Test = fea(testIdx,:);          æµ‹è¯•æ•°æ®
+%			fea_Test_new = (fea_Test - repmat(meanData,nSmpTest,1))*eigvector; æµ‹è¯•æ•°æ®
 
 %
 % 
@@ -62,7 +62,7 @@ function [eigvector, eigvalue, meanData, new_data] = PCA(data, options)
 
 if (~exist('options','var'))
    options = [];
-else                                       %class(A) ·µ»ØAµÄÀàÐÍÃû³Æ
+else                                       %class(A) è¿”å›žAçš„ç±»åž‹åç§°
    if ~strcmpi(class(options),'struct')  % strcmpi : Compare strings ignoring case.
                                          % TF = STRCMPI(S1,S2) compares the  strings S1 and S2 and returns logical 1(true)
                                          % if they are the same except for case, and returns logical 0 (false)  otherwise.
@@ -70,8 +70,8 @@ else                                       %class(A) ·µ»ØAµÄÀàÐÍÃû³Æ
    end
 end
 
-bRatio = 0;          %£¿   ºÎ´¦¶¨Òåoptions ÊÇÒ»½á¹¹Ìå   ÉÏ¶Î£¿
-if isfield(options,'PCARatio')          %²âÊÔÄ³×Ö·û´®ÊÇ·ñÎªÖ¸¶¨½á¹¹ÌåµÄ×Ö¶Î  
+bRatio = 0;          %ï¼Ÿ   ä½•å¤„å®šä¹‰options æ˜¯ä¸€ç»“æž„ä½“   ä¸Šæ®µï¼Ÿ
+if isfield(options,'PCARatio')          %æµ‹è¯•æŸå­—ç¬¦ä¸²æ˜¯å¦ä¸ºæŒ‡å®šç»“æž„ä½“çš„å­—æ®µ  
     bRatio = 1;
     eigvector_n = min(size(data));      
 elseif isfield(options,'ReducedDim')
@@ -84,47 +84,47 @@ end
 [nSmp, nFea] = size(data);
 % 
 % meanValue = mean (data')';
-% data = data - meanValue * ones (1,size (data, 2));     %£¿
+% data = data - meanValue * ones (1,size (data, 2));     %ï¼Ÿ
 
 meanData = mean(data);
 data = data - repmat(meanData,nSmp,1);   %B = repmat(A,M,N) The size of B is [size(A,1)*M, size(A,2)*N].
                            %?              % The statement repmat(A,N) creates an N-by-N    tiling.
 
-if nSmp >= nFea                      %ÐÐÊý´óÓÚÁÐÊý
+if nSmp >= nFea                      %è¡Œæ•°å¤§äºŽåˆ—æ•°
     ddata = data'*data;
     ddata = (ddata + ddata')/2;  %?
-    if issparse(ddata)                    %²âÊÔÊÇ·ñÊÇÏ¡Êè¾ØÕó 
-        ddata = full(ddata);              %°ÑÏ¡Êè¾ØÕó×ª»»ÎªÆÕÍ¨¾ØÕó
+    if issparse(ddata)                    %æµ‹è¯•æ˜¯å¦æ˜¯ç¨€ç–çŸ©é˜µ 
+        ddata = full(ddata);              %æŠŠç¨€ç–çŸ©é˜µè½¬æ¢ä¸ºæ™®é€šçŸ©é˜µ
     end
 
-    if size(ddata, 1) > 100 & eigvector_n < size(ddata, 1)/2  % using eigs to speed up!    ?Èç¹ûÊÇÏ¡Êè¾ØÕó£¬ÔòÓÃeigsÇóÌØÕ÷ÖµºÍÌØÕ÷ÏòÁ¿
-        option = struct('disp',0);    %£¿  ´´Á¢Ò»¸ö½á¹¹£¿
+    if size(ddata, 1) > 100 & eigvector_n < size(ddata, 1)/2  % using eigs to speed up!    ?å¦‚æžœæ˜¯ç¨€ç–çŸ©é˜µï¼Œåˆ™ç”¨eigsæ±‚ç‰¹å¾å€¼å’Œç‰¹å¾å‘é‡
+        option = struct('disp',0);    %ï¼Ÿ  åˆ›ç«‹ä¸€ä¸ªç»“æž„ï¼Ÿ
         [eigvector, d] = eigs(ddata,eigvector_n,'la',option); %EIGS(A,B,K,SIGMA)    return K eigenvalues. 
-                                                            %£¿                     %If SIGMA is:'LA' or 'SA' - Largest or Smallest Algebraic
+                                                            %ï¼Ÿ                     %If SIGMA is:'LA' or 'SA' - Largest or Smallest Algebraic
         eigvalue = diag(d);
     else
-        [eigvector, d] = eig(ddata);                                                  %£¿ ·ñÔò£¬ÈôÎªÆÕÍ¨¾ØÕó£¬ÔòÓÃeigÇóÌØÕ÷ÖµºÍÌØÕ÷ÏòÁ¿
+        [eigvector, d] = eig(ddata);                                                  %ï¼Ÿ å¦åˆ™ï¼Œè‹¥ä¸ºæ™®é€šçŸ©é˜µï¼Œåˆ™ç”¨eigæ±‚ç‰¹å¾å€¼å’Œç‰¹å¾å‘é‡
         eigvalue = diag(d);
-        % ====== Sort based on descending order         ½µÐòÅÅÁÐ
-        [junk, index] = sort(-eigvalue);                     % £¿junkÖÐÊÇÎÞÓÃµÄ¸ºÌØÕ÷Öµ
-        eigvalue = eigvalue(index);                             % ½«ÒÑÓÐµÄeigvalue ¡¢eigvector°´indexÅÅÐò
+        % ====== Sort based on descending order         é™åºæŽ’åˆ—
+        [junk, index] = sort(-eigvalue);                     % ï¼Ÿjunkä¸­æ˜¯æ— ç”¨çš„è´Ÿç‰¹å¾å€¼
+        eigvalue = eigvalue(index);                             % å°†å·²æœ‰çš„eigvalue ã€eigvectoræŒ‰indexæŽ’åº
         eigvector = eigvector(:, index);
     end
     
     clear ddata;
-    maxEigValue = max(abs(eigvalue));                            % »ñÈ¡×î´óÌØÕ÷Öµ
-    eigIdx = find(abs(eigvalue)/maxEigValue < 1e-12);        % £¿  1e-12  £¿eigIdx£¿
+    maxEigValue = max(abs(eigvalue));                            % èŽ·å–æœ€å¤§ç‰¹å¾å€¼
+    eigIdx = find(abs(eigvalue)/maxEigValue < 1e-12);        % ï¼Ÿ  1e-12  ï¼ŸeigIdxï¼Ÿ
     eigvalue (eigIdx) = [];
     eigvector (:,eigIdx) = [];
 
-else	% This is an efficient method which computes the eigvectors of   %ÐÐÊýÐ¡ÓÚÁÐÊý
+else	% This is an efficient method which computes the eigvectors of   %è¡Œæ•°å°äºŽåˆ—æ•°
 	% of A*A^T (instead of A^T*A) first, and then convert them back to
 	% the eigenvectors of A^T*A.
     if nSmp > 700                           
         ddata = zeros(nSmp,nSmp);
-        for i = 1:ceil(nSmp/100)         %Ïò²»Ð¡ÓÚaµÄ×î½Ó½üÕûÊýÈ¡Õû  ceil(4.5)½á¹ûÎª5; ceil(-4.5)½á¹ûÎª-4
-            if i == ceil(nSmp/100)    %£¿
-                ddata((i-1)*100+1:end,:) = data((i-1)*100+1:end,:)*data';     %£¿
+        for i = 1:ceil(nSmp/100)         %å‘ä¸å°äºŽaçš„æœ€æŽ¥è¿‘æ•´æ•°å–æ•´  ceil(4.5)ç»“æžœä¸º5; ceil(-4.5)ç»“æžœä¸º-4
+            if i == ceil(nSmp/100)    %ï¼Ÿ
+                ddata((i-1)*100+1:end,:) = data((i-1)*100+1:end,:)*data';     %ï¼Ÿ
             else
                 ddata((i-1)*100+1:i*100,:) = data((i-1)*100+1:i*100,:)*data';
             end
@@ -132,8 +132,8 @@ else	% This is an efficient method which computes the eigvectors of   %ÐÐÊýÐ¡ÓÚÁ
     elseif nSmp > 400
         ddata = zeros(nSmp,nSmp);
         for i = 1:ceil(nSmp/200)      
-            if i == ceil(nSmp/200)   %£¿
-                ddata((i-1)*200+1:end,:) = data((i-1)*200+1:end,:)*data';    %£¿
+            if i == ceil(nSmp/200)   %ï¼Ÿ
+                ddata((i-1)*200+1:end,:) = data((i-1)*200+1:end,:)*data';    %ï¼Ÿ
             else
                 ddata((i-1)*200+1:i*200,:) = data((i-1)*200+1:i*200,:)*data';
             end
@@ -169,15 +169,15 @@ else	% This is an efficient method which computes the eigvectors of   %ÐÐÊýÐ¡ÓÚÁ
     eigvector1 (:,eigIdx) = [];
 
     eigvector = data'*eigvector1;		% Eigenvectors of A^T*A
-    if nargout ~= 4 clear data; end%%%%%%ÕâÊÇÎÒÌí¼ÓµÄ!!!!!             £¿nargout
+    if nargout ~= 4 clear data; end%%%%%%è¿™æ˜¯æˆ‘æ·»åŠ çš„!!!!!             ï¼Ÿnargout
     clear eigvector1;
 %  	eigvector = eigvector.*repmat(1./sqrt(eigvalue+eps),1,nFea)'; % Normalization 
-	eigvector = eigvector*diag(1./(sum(eigvector.^2).^0.5)); % Normalization  ±ê×¼»¯  %£¿µãºÅ.Ê²Ã´ÒâË¼
+	eigvector = eigvector*diag(1./(sum(eigvector.^2).^0.5)); % Normalization  æ­£åˆ™åŒ–
 
 end
 
-%¼ÆËã¾«¶È
-if bRatio                 %µÚ76ÐÐ¶¨Òå                 %£¿ÉÙ¶«Î÷Âð   bRatio=?
+%è®¡ç®—ç²¾åº¦
+if bRatio                 %ç¬¬76è¡Œå®šä¹‰                 %ï¼Ÿå°‘ä¸œè¥¿å—   bRatio=?
     if options.PCARatio >= 1 | options.PCARatio <= 0
         idx = length(eigvalue);
     else
@@ -195,13 +195,13 @@ if bRatio                 %µÚ76ÐÐ¶¨Òå                 %£¿ÉÙ¶«Î÷Âð   bRatio=?
     eigvalue = eigvalue(1:idx);
     eigvector = eigvector(:,1:idx);
 else
-    if eigvector_n < length(eigvalue)      %µÚ77ÐÐ¶¨Òå
+    if eigvector_n < length(eigvalue)      %ç¬¬77è¡Œå®šä¹‰
         eigvalue = eigvalue(1:eigvector_n);
         eigvector = eigvector(:, 1:eigvector_n);
     end
 end
 
-if nargout == 4           % £¿nargout
+if nargout == 4           % ï¼Ÿnargout
     new_data = data*eigvector;
 end
 
