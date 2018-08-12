@@ -1,8 +1,14 @@
 # Human_Face_recognition-PCA-SVM
-#1.The renlianshibie.m is the main program.
-#2.Two datasets has been proved as ORL.rar and YALE.rar.
-  #Before you run the renlianshibie.m , you must unzip it.
-#3.Libsvm has been used and you must run the cmake(all of the file which idx is .c) in Matlab.
+-----------------------------------------
+-----------------------------------------
+1.The renlianshibie.m is the main program.
+=================
+2.Two datasets has been proved as ORL.rar and YALE.rar.
+=================
+  Before you run the renlianshibie.m , you must unzip it.
+=================
+3.Libsvm has been used and you must run the cmake(all of the file which idx is .c) in Matlab.
+=================
 
 -----------------------------------------
 --- MATLAB/OCTAVE interface of LIBSVM ---
