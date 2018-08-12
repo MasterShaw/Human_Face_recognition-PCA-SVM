@@ -7,7 +7,7 @@
 =================
   Before you run the renlianshibie.m , you must unzip it.
 =================
-3.Libsvm has been used and you must run the cmake(all of the file which idx is .c) in Matlab.
+3.Libsvm has been used and you must run the cmake(all of the file which indx is .c) in Matlab.
 =================
 
 -----------------------------------------
