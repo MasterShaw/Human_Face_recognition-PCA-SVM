@@ -1,4 +1,2 @@
-*.js linguist-language=matlab
-*.css linguist-language=matlab
-*.html linguist-language=matlab
+# this file just for solve Github's language display error
 *.c linguist-language=matlab
